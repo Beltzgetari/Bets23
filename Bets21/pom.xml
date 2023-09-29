@@ -88,11 +88,10 @@
 			<version>1.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>is2</groupId>
-			<artifactId>is2</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		<properties>
+  <sonar.organization>beltzgetaribets</sonar.organization>
+  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+	</properties>
 </dependencies>
 
 </project>
