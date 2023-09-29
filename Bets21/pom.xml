@@ -27,6 +27,9 @@
 <properties>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
+
+  <sonar.organization>beltzgetaribets</sonar.organization>
+  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 </properties>
 
 <!-- https://mvnrepository.com/artifact/junit/junit -->
@@ -88,10 +91,7 @@
 			<version>1.1</version>
 		</dependency>
 
-		<properties>
-  <sonar.organization>beltzgetaribets</sonar.organization>
-  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-	</properties>
+		
 </dependencies>
 
 </project>
