@@ -39,12 +39,11 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 <properties>
 				<maven.compiler.target>1.8</maven.compiler.target>
 				<maven.compiler.source>1.8</maven.compiler.source>
-Software Ingeniaritza II
-Etengabeko Integrazio Ingurunea
-14
+				<sonar.sources>src</sonar.sources>
+				<tests>src</tests>
 				<sonar.organization>beltzgetarisl</sonar.organization>
 				<sonar.host.url>https://sonarcloud.io</sonar.host.url>		
-				<sonar.projectKey>SONAR_TOKEN</sonar.	projectKey>		
+				<sonar.projectKey>Bets23</sonar.projectKey>		
 				<sonar.login>532e80e4b4a544b2d3e9d5db6b313021106e12c2</sonar.login>
 </properties>
 <!-- https://mvnrepository.com/artifact/junit/junit	-->
@@ -83,9 +82,7 @@ Etengabeko Integrazio Ingurunea
 <groupId>com.sun.xml.ws</groupId>
 <artifactId>jaxws-rt</artifactId>
 <version>2.3.2</version>
-Software Ingeniaritza II
-Etengabeko Integrazio Ingurunea
-15
+
 </dependency>
 <dependency>
 <groupId>com.objectdb</groupId>
