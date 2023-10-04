@@ -57,7 +57,12 @@ public class Bet {
 	public void remove() {
 		user.removeBet(this);
 	}
-	
+	@Override
+	public int hashCode() {
+		return Objects.hash(betUpdated, kop, number, quotes, user);
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -74,4 +79,6 @@ public class Bet {
 	public void setQuotes(Vector<Quote> quotes) {
 		this.quotes = quotes;
 	}
+
+
 }
