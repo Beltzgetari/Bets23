@@ -331,7 +331,7 @@ public class BLFacadeImplementation  implements BLFacade {
 		dbManager.open(false);
 		Quote qq2 = dbManager.getQuote(qq1);
 		dbManager.close();
-		if(qq2.getQuoteNumber() != qwin.getQuoteNumber()) {
+		if(!qq2.getQuoteNumber().equals(qwin.getQuoteNumber())) {
 			for (Bet b1: qq2.getBets()) {
 				User us = (User) this.getUserByName(b1.getUser().getIzena());
 				dbManager.open(false);
