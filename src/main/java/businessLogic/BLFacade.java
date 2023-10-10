@@ -4,12 +4,11 @@ import java.util.Vector;
 import java.util.Date;
 import java.util.List;
 
-//import domain.Booking;
+
 import domain.Question;
 import domain.Quote;
 import domain.User;
 import domain.UserAbstract;
-import domain.UserAdmin;
 import domain.Event;
 import domain.Movement;
 import exceptions.EventFinished;
