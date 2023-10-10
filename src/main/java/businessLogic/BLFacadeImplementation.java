@@ -1,5 +1,4 @@
 package businessLogic;
-//hola
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -298,43 +297,50 @@ public class BLFacadeImplementation  implements BLFacade {
 		Question quest = dbManager.getQuestion(q.getQuestionNumber());
 		dbManager.close();
 		for (Bet b : dbq.getBets()) {
-			User u = (User) this.getUserByName(b.getUser().getIzena());
-			System.out.println(b.getQuotes().get(0).getQuote());
-			for (Quote q1 : b.getQuotes()) {
-				if (q1.isWinner() != 1) {
-					irabazle = false;
-					//System.out.println(1);
-				}
-			}
-			
-			float moneywin = b.getKop();
-			if (irabazle) {
-				for (Quote q1 : b.getQuotes()) {
-					moneywin *= q1.getMulti();
-					//System.out.println(2);
-				}
-				this.putMoney(moneywin, u, "ApustuaIrabazi");
-			}
-			
-			dbManager.open(false);
-			dbManager.updateStatistics(u, moneywin, irabazle);
-			dbManager.close();
+			irabazle = this.addMoneyFor(b, irabazle);
 		}
 		
+	
 		for (Quote qq1: quest.getQuotes()) {
-			dbManager.open(false);
-			Quote qq2 = dbManager.getQuote(qq1);
-			dbManager.close();
-			if(!qq2.getQuoteNumber().equals(qq.getQuoteNumber())) {
-				for (Bet b1: qq2.getBets()) {
-					User us = (User) this.getUserByName(b1.getUser().getIzena());
-					dbManager.open(false);
-					dbManager.updateStatistics(us, 0, false);
-					dbManager.close();
-				}
+			this.AddStatistics(qq1, qq);
+		}
+	}
+	protected boolean addMoneyFor(Bet b, boolean irabazle) {
+		User u = (User) this.getUserByName(b.getUser().getIzena());
+		for (Quote q1 : b.getQuotes()) {
+			if (q1.isWinner() != 1) {
+				irabazle = false;
+			}
+		}
+		
+		float moneywin = b.getKop();
+		if (irabazle) {
+			for (Quote q1 : b.getQuotes()) {
+				moneywin *= q1.getMulti();
+			}
+			this.putMoney(moneywin, u, "ApustuaIrabazi");
+		}
+		
+		dbManager.open(false);
+		dbManager.updateStatistics(u, moneywin, irabazle);
+		dbManager.close();
+		
+		return irabazle;
+	}
+	protected void AddStatistics(Quote qq1, Quote qwin) {
+		dbManager.open(false);
+		Quote qq2 = dbManager.getQuote(qq1);
+		dbManager.close();
+		if(qq2.getQuoteNumber() != qwin.getQuoteNumber()) {
+			for (Bet b1: qq2.getBets()) {
+				User us = (User) this.getUserByName(b1.getUser().getIzena());
+				dbManager.open(false);
+				dbManager.updateStatistics(us, 0, false);
+				dbManager.close();
 			}
 		}
 	}
+	
 	
 	@WebMethod public List<User> getRanking(){
 		dbManager.open(false);
@@ -343,4 +349,5 @@ public class BLFacadeImplementation  implements BLFacade {
 		return users;
 	}
 }
+
 
