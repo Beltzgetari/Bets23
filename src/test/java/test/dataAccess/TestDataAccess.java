@@ -3,14 +3,18 @@ package test.dataAccess;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 import configuration.ConfigXML;
 import domain.Event;
 import domain.Question;
+import domain.User;
+import domain.UserAbstract;
 
 public class TestDataAccess {
 	protected  EntityManager  db;
@@ -89,5 +93,32 @@ public class TestDataAccess {
 			return false;
 			
 		}
+		public Vector<User> getUnfollows(User us){
+			User us1 = db.find(User.class, us);
+			Vector<User> nofollowing = new Vector<User>();
+			TypedQuery<User> guztiak = db.createQuery("SELECT DISTINCT us FROM User us", User.class);
+			if (!guztiak.getResultList().isEmpty()) {
+				for (User ez : guztiak.getResultList()) {
+					if (!us1.getJarraituak().contains(ez) && !us1.equals(ez)) {
+						nofollowing.add(ez);
+					}
+				}
+			}
+				return nofollowing;
+		}
+	public boolean register( String username, String password, String izena, int age) {
+		UserAbstract us= db.find(UserAbstract.class, username);
+		if (us== null) {
+			db.getTransaction().begin();
+			System.out.println(username);
+			db.persist((UserAbstract)new User(username, password, izena, age));
+			//db.persist((UserAbstract)new UserAdmin(username, password));
+			db.getTransaction().commit();
+			System.out.println("Erregistratu da");
+			return true;
+		}else {
+			return false;
+		}
+	}
 }
 
