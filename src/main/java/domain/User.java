@@ -104,5 +104,6 @@ public class User extends UserAbstract {
 	public Statistics getStatistics() {
 		return this.statistics;
 	}
+	
 }
 

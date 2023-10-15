@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.Objects;
 import java.util.Vector;
 
 import javax.persistence.*;
@@ -47,5 +48,18 @@ public abstract class UserAbstract {
 	@Override
 	public String toString() {
 		return  username ;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserAbstract other = (UserAbstract) obj;
+		return Objects.equals(password, other.password) && Objects.equals(username, other.username);
 	}
 }

@@ -79,4 +79,7 @@ public class Quote {
 	public Integer getQuoteNumber() {
 		return quoteNumber;
 	}
+	public void setQuoteNumber(Integer numb) {
+		this.quoteNumber = numb;
+	}
 }

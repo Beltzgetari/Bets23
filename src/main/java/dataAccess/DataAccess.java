@@ -438,6 +438,7 @@ public boolean existQuestion(Event event, String question) {
 		Quote q1= db.find(Quote.class, q);
 		Question quest2 = db.find(Question.class, quest);
 		if (quest2 == null || q1==null) {
+			System.out.println("aaaaa");
 			return false;
 		}else {
 			if (q1.isWinner()==1) {
