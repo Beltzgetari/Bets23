@@ -10,12 +10,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.ArrayList;
 
-import javax.jws.WebMethod;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import configuration.ConfigXML;
@@ -54,10 +55,10 @@ public class DataAccess  {
 		
 		db.getTransaction().begin();
 		try {
-			
+		
 		   UserAdmin admin = new UserAdmin("admin", "admin");
 		   User a= new User("a", "a", "a", 18);
-		   User b= new User("b", "b", "b", 18);
+		  User b= new User("b", "b", "b", 18);
 		   db.persist(admin);
 		   db.persist(a);
 		   db.persist(b);
@@ -276,9 +277,9 @@ public class DataAccess  {
 	 * @param date in which events are retrieved
 	 * @return collection of events
 	 */
-	public Vector<Event> getEvents(Date date) {
+	public ArrayList<Event> getEvents(Date date) {
 		System.out.println(">> DataAccess: getEvents");
-		Vector<Event> res = new Vector<Event>();	
+		ArrayList<Event> res = new ArrayList<Event>();	
 		TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.eventDate=?1",Event.class);   
 		query.setParameter(1, date);
 		List<Event> events = query.getResultList();
@@ -295,9 +296,9 @@ public class DataAccess  {
 	 * @param date of the month for which days with events want to be retrieved 
 	 * @return collection of dates
 	 */
-	public Vector<Date> getEventsMonth(Date date) {
+	public ArrayList<Date> getEventsMonth(Date date) {
 		System.out.println(">> DataAccess: getEventsMonth");
-		Vector<Date> res = new Vector<Date>();	
+		ArrayList<Date> res = new ArrayList<Date>();	
 		
 		Date firstDayMonthDate= UtilDate.firstDayMonth(date);
 		Date lastDayMonthDate= UtilDate.lastDayMonth(date);
@@ -378,7 +379,10 @@ public boolean existQuestion(Event event, String question) {
 
 	public UserAbstract getUserByName(String username) {
         return db.find(UserAbstract.class, username);
-    }
+	}
+	public User getUserUsername(String username) {
+		 return db.find(User.class, username);
+	}
 	
 	public Question getQuestion(int questionNumber) {
 		return db.find(Question.class, questionNumber);
@@ -435,12 +439,19 @@ public boolean existQuestion(Event event, String question) {
 	}
 	
 	public boolean makeWinner(Question quest, Quote q) {
+		System.out.println("hola");
 		Quote q1= db.find(Quote.class, q);
 		Question quest2 = db.find(Question.class, quest);
 		if (quest2 == null || q1==null) {
-			System.out.println("aaaaa");
+			if(quest2 == null) {
+			System.out.println("no llega quest ");
+			}
+			if(q1 ==null) {
+				System.out.println("no llega quote");
+			}
 			return false;
 		}else {
+			System.out.println("llega aqui");
 			if (q1.isWinner()==1) {
 				return false;
 			}else {
@@ -460,7 +471,7 @@ public boolean existQuestion(Event event, String question) {
 		}
 	}
 	
-	public boolean addBet(float money, User us, Vector<Quote> quotes) {
+	public boolean addBet(float money, User us, ArrayList<Quote> quotes) {
 		Bet bet= new Bet(money, us);
 		bet.setQuotes(quotes);
 		Bet bet1= db.find(Bet.class, bet);
@@ -537,8 +548,8 @@ public boolean existQuestion(Event event, String question) {
 	}
 	
 	
-	public Vector<UserAbstract> getUsers(boolean isAdmin){
-		Vector<UserAbstract> users = new Vector<UserAbstract>();
+	public ArrayList<UserAbstract> getUsers(boolean isAdmin){
+		ArrayList<UserAbstract> users = new ArrayList<UserAbstract>();
 		if (isAdmin){
 			TypedQuery<UserAdmin> query1 = db.createQuery("SELECT DISTINCT us FROM UserAdmin us", UserAdmin.class);
 		
@@ -590,9 +601,9 @@ public boolean existQuestion(Event event, String question) {
 		db.getTransaction().commit();
 	}
 	
-	public Vector<User> getUnfollows(User us){
+	public ArrayList<User> getUnfollows(User us){
 		User us1 = db.find(User.class, us);
-		Vector<User> nofollowing = new Vector<User>();
+		ArrayList<User> nofollowing = new ArrayList<User>();
 		TypedQuery<User> guztiak = db.createQuery("SELECT DISTINCT us FROM User us", User.class);
 		if (!guztiak.getResultList().isEmpty()) {
 			for (User ez : guztiak.getResultList()) {
@@ -604,13 +615,13 @@ public boolean existQuestion(Event event, String question) {
 			return nofollowing;
 	}
 	
-	public Vector<User> getJarraitzaileak(User us) {
+	public ArrayList<User> getJarraitzaileak(User us) {
 		User us2 = db.find(User.class, us);
 		System.out.println(us2.getJarraitzaileak().size());
 		return us2.getJarraitzaileak();
 	}
 	
-	public Vector<User> getJarraituak(User us){
+	public ArrayList<User> getJarraituak(User us){
 		User us2= db.find(User.class, us);
 		System.out.println(us2.getJarraituak().size());
 		return us2.getJarraituak();
@@ -639,6 +650,12 @@ public boolean existQuestion(Event event, String question) {
 		us.getStatistics().updateStatistics(moneywin, irabazi);
 		db.getTransaction().commit();
 		
+	}
+	public void ezabatu () {
+		db.getTransaction().begin();
+		Query query1 = db.createQuery("DELETE FROM User");
+        query1.executeUpdate();
+        db.getTransaction().commit();
 	}
 	
 }

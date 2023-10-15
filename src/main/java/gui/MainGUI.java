@@ -19,7 +19,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

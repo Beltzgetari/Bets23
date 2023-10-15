@@ -1,7 +1,7 @@
 package domain;
 
 import java.util.Objects;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -19,14 +19,14 @@ public class Bet {
 	@XmlIDREF
 	private User user;
 	@XmlIDREF @OneToMany(fetch=FetchType.EAGER)
-	private Vector<Quote> quotes;
+	private ArrayList<Quote> quotes;
 	private boolean betUpdated;
 	
 
 	public Bet(float kop, User user) {
 		this.kop=kop;
 		this.user=user;
-		this.quotes= new Vector<Quote>();
+		this.quotes= new ArrayList<Quote>();
 		betUpdated = false;
 	}
 	
@@ -73,10 +73,10 @@ public class Bet {
 		Bet other = (Bet) obj;
 		return number == other.number;
 	}
-	public Vector<Quote> getQuotes() {
+	public ArrayList<Quote> getQuotes() {
 		return quotes;
 	}
-	public void setQuotes(Vector<Quote> quotes) {
+	public void setQuotes(ArrayList<Quote> quotes) {
 		this.quotes = quotes;
 	}
 

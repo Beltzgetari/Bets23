@@ -1,6 +1,6 @@
 package domain;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,7 +17,7 @@ public class Quote {
 	private String quote;
 	private double multi;
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	private Vector<Bet> bets = new Vector<Bet>();
+	private ArrayList<Bet> bets = new ArrayList<Bet>();
 	//isWinner = 1 --> irabazlea da, isWinner = 2 --> galtzailea da, isWinner = 0 --> oraindik emaitzik gabe
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	private Integer isWinner;
@@ -27,7 +27,7 @@ public class Quote {
 		this.quote = quote;
 		this.multi = multi;
 		this.isWinner = 0;
-		bets = new Vector<Bet>();
+		bets = new ArrayList<Bet>();
 	}
 	
 	public Quote() {
@@ -50,11 +50,11 @@ public class Quote {
 		this.multi = multi;
 	}
 
-	public Vector<Bet> getBets() {
+	public ArrayList<Bet> getBets() {
 		return bets;
 	}
 
-	public void setBets(Vector<Bet> bets) {
+	public void setBets(ArrayList<Bet> bets) {
 		this.bets = bets;
 	}
 	public void makeWinner() {

@@ -5,7 +5,6 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -22,7 +21,7 @@ public class getUnfollowsDABMTest {
 	 @Test
 	 public void Test1() {
 		User us1 = new User();
-		Vector<User> unfollows= new Vector<User>()
+		ArrayList<User> unfollows= new ArrayList<User>()
 ;	
 		
 		when(da.getUnfollows(us1)).thenReturn(unfollows);

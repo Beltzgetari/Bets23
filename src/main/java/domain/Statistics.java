@@ -1,6 +1,6 @@
 package domain;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;

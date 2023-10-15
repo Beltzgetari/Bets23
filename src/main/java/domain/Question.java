@@ -1,7 +1,7 @@
 package domain;
 
 import java.io.*;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -25,19 +25,19 @@ public class Question implements Serializable {
 	@XmlIDREF
 	private Event event;
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	private Vector<Quote> quotes;
+	private ArrayList<Quote> quotes;
 
-	public Vector<Quote> getQuotes() {
+	public ArrayList<Quote> getQuotes() {
 		return quotes;
 	}
 
-	public void setQuotes(Vector<Quote> quotes) {
+	public void setQuotes(ArrayList<Quote> quotes) {
 		this.quotes = quotes;
 	}
 
 	public Question(){
 		super();
-		quotes= new Vector<Quote>();
+		quotes= new ArrayList<Quote>();
 	}
 	
 	public Question(Integer queryNumber, String query, float betMinimum, Event event) {
@@ -46,7 +46,7 @@ public class Question implements Serializable {
 		this.question = query;
 		this.betMinimum=betMinimum;
 		this.event = event;
-		quotes= new Vector<Quote>();
+		quotes= new ArrayList<Quote>();
 	}
 	
 	public Question(String query, float betMinimum,  Event event) {
@@ -54,7 +54,7 @@ public class Question implements Serializable {
 		this.question = query;
 		this.betMinimum=betMinimum;
 		this.event = event;
-		quotes= new Vector<Quote>();
+		quotes= new ArrayList<Quote>();
 	}
 
 	/**

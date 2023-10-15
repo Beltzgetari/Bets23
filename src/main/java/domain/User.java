@@ -1,7 +1,8 @@
 package domain;
 
 import java.util.Date;
-import java.util.Vector;
+import java.util.Objects;
+import java.util.ArrayList;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -10,16 +11,19 @@ import javax.xml.bind.annotation.XmlIDREF;
 @Entity
 @XmlAccessorType(XmlAccessType.FIELD)
 public class User extends UserAbstract {
+	
+
+
 	private String izena;
 	private int age;
 	private float wallet;
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	private Vector<Movement> movements = new Vector<Movement>();
-	private Vector<Bet> bets;
+	private ArrayList<Movement> movements = new ArrayList<Movement>();
+	private ArrayList<Bet> bets;
 	@XmlIDREF @OneToMany(fetch=FetchType.EAGER)
-	private Vector<User> jarraituak;
+	private ArrayList<User> jarraituak;
 	@XmlIDREF @OneToMany(fetch=FetchType.EAGER)
-	private Vector<User> jarraitzaileak;
+	private ArrayList<User> jarraitzaileak;
 	private float betmax;
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private Statistics statistics;
@@ -29,17 +33,17 @@ public class User extends UserAbstract {
 	public void setBetmax(float betmax) {
 		this.betmax = betmax;
 	}
-	public Vector<User> getJarraituak() {
+	public ArrayList<User> getJarraituak() {
 	
 		return jarraituak;
 	}
-	public void setJarraituak(Vector<User> jarraituak) {
+	public void setJarraituak(ArrayList<User> jarraituak) {
 		this.jarraituak = jarraituak;
 	}
-	public Vector<User> getJarraitzaileak() {
+	public ArrayList<User> getJarraitzaileak() {
 		return jarraitzaileak;
 	}
-	public void setJarraitzaileak(Vector<User> jarraitzaileak) {
+	public void setJarraitzaileak(ArrayList<User> jarraitzaileak) {
 		this.jarraitzaileak = jarraitzaileak;
 	}
 
@@ -48,12 +52,12 @@ public class User extends UserAbstract {
 		super(username, password);
 		this.izena= izena;
 		this.age= age;
-		this.movements= new Vector<Movement>();
-		this.bets= new Vector<Bet>();
+		this.movements= new ArrayList<Movement>();
+		this.bets= new ArrayList<Bet>();
 		this.wallet=0;
 		this.betmax=0;
-		this.jarraituak= new Vector<User>();
-		this.jarraitzaileak= new Vector<User>();
+		this.jarraituak= new ArrayList<User>();
+		this.jarraitzaileak= new ArrayList<User>();
 		this.statistics = new Statistics();
 	}
 	public User() {
@@ -65,16 +69,16 @@ public class User extends UserAbstract {
 	public void setWallet(float wallet) {
 		this.wallet = wallet;
 	}
-	public Vector<Bet> getBets() {
+	public ArrayList<Bet> getBets() {
 		return bets;
 	}
-	public void setBets(Vector<Bet> bets) {
+	public void setBets(ArrayList<Bet> bets) {
 		this.bets = bets;
 	}
-	public Vector<Movement> getMovements() {
+	public ArrayList<Movement> getMovements() {
 		return movements;
 	}
-	public void setMovements(Vector<Movement> movements) {
+	public void setMovements(ArrayList<Movement> movements) {
 		this.movements = movements;
 	}
 	public String getIzena() {
@@ -104,6 +108,26 @@ public class User extends UserAbstract {
 	public Statistics getStatistics() {
 		return this.statistics;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ Objects.hash(age, betmax, bets, izena, jarraituak, jarraitzaileak, movements, statistics, wallet);
+		return result;
+	}
+	
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return  super.equals(obj);
+	}
+	
 	
 }
 

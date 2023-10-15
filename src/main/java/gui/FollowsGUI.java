@@ -14,7 +14,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import java.awt.Color;
@@ -37,8 +37,8 @@ public class FollowsGUI extends JFrame {
 	private JLabel labeldirua;
 	private JLabel labelerror;
 	private float max;
-	private Vector<User> listajarraituak = new Vector<User>();
-	private Vector<User> listajarraitzaileak = new Vector<User>();
+	private ArrayList<User> listajarraituak = new ArrayList<User>();
+	private ArrayList<User> listajarraitzaileak = new ArrayList<User>();
 
 	/**
 	 * Launch the application.

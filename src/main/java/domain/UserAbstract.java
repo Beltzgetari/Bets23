@@ -50,6 +50,10 @@ public abstract class UserAbstract {
 		return  username ;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(password, username);
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -62,4 +66,7 @@ public abstract class UserAbstract {
 		UserAbstract other = (UserAbstract) obj;
 		return Objects.equals(password, other.password) && Objects.equals(username, other.username);
 	}
+
+
+
 }

@@ -41,9 +41,9 @@ public class CreateQuestionGUI extends JFrame {
 	private JLabel jLabelMsg = new JLabel();
 	private JLabel jLabelError = new JLabel();
 	
-	private Vector<Date> datesWithEventsCurrentMonth = new Vector<Date>();
+	private ArrayList<Date> datesWithEventsCurrentMonth = new ArrayList<Date>();
 
-	public CreateQuestionGUI(Vector<domain.Event> v) {
+	public CreateQuestionGUI(ArrayList<domain.Event> v) {
 		try {
 			jbInit(v);
 		} catch (Exception e) {
@@ -51,7 +51,7 @@ public class CreateQuestionGUI extends JFrame {
 		}
 	}
 
-	private void jbInit(Vector<domain.Event> v) throws Exception {
+	private void jbInit(ArrayList<domain.Event> v) throws Exception {
 
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(604, 370));
@@ -165,7 +165,7 @@ public class CreateQuestionGUI extends JFrame {
 					try {
 						BLFacade facade = MainGUI.getBusinessLogic();
 
-						Vector<domain.Event> events = facade.getEvents(firstDay);
+						ArrayList<domain.Event> events = facade.getEvents(firstDay);
 
 						if (events.isEmpty())
 							jLabelListOfEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("NoEvents")
@@ -196,7 +196,7 @@ public class CreateQuestionGUI extends JFrame {
 	}
 
 	
-public static void paintDaysWithEvents(JCalendar jCalendar,Vector<Date> datesWithEventsCurrentMonth) {
+public static void paintDaysWithEvents(JCalendar jCalendar,ArrayList<Date> datesWithEventsCurrentMonth) {
 		// For each day with events in current month, the background color for that day is changed to cyan.
 
 		

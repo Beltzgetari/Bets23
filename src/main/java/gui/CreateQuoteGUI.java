@@ -30,7 +30,7 @@ public class CreateQuoteGUI extends JFrame {
 	private JScrollPane scrollPaneEvents = new JScrollPane();
 	private JScrollPane scrollPaneQueries = new JScrollPane();
 	
-	private Vector<Date> datesWithEventsCurrentMonth = new Vector<Date>();
+	private ArrayList<Date> datesWithEventsCurrentMonth = new ArrayList<Date>();
 
 	private JTable tableEvents= new JTable();
 	private JTable tableQueries = new JTable();
@@ -154,7 +154,7 @@ public class CreateQuoteGUI extends JFrame {
 
 						BLFacade facade=MainGUI.getBusinessLogic();
 
-						Vector<domain.Event> events=facade.getEvents(firstDay);
+						ArrayList<domain.Event> events=facade.getEvents(firstDay);
 
 						if (events.isEmpty() ) jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("NoEvents")+ ": "+dateformat1.format(calendarAct.getTime()));
 						else jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+ ": "+dateformat1.format(calendarAct.getTime()));
@@ -196,7 +196,7 @@ public class CreateQuoteGUI extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int i=tableEvents.getSelectedRow();
 				domain.Event ev=(domain.Event)tableModelEvents.getValueAt(i,2); // obtain ev object
-				Vector<Question> queries=ev.getQuestions();
+				ArrayList<Question> queries=ev.getQuestions();
 
 				tableModelQueries.setDataVector(null, columnNamesQueries);
 

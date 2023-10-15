@@ -27,7 +27,7 @@ public class BetGUI extends JFrame {
 	private Calendar calendarAnt = null;
 	private Calendar calendarAct = null;
 
-	private Vector<Date> datesWithEventsCurrentMonth = new Vector<Date>();
+	private ArrayList<Date> datesWithEventsCurrentMonth = new ArrayList<Date>();
 	private final JTable tableQuotes = new JTable();
 
 	private String[] columnNamesEvents = new String[] { ResourceBundle.getBundle("Etiquetas").getString("EventN"),
@@ -77,7 +77,7 @@ public class BetGUI extends JFrame {
 		this.setSize(new Dimension(700, 500));
 		betbtton.setEnabled(false);
 		btnAddBet.setEnabled(false);
-		Vector<Quote> quotes = new Vector<Quote>();
+		ArrayList<Quote> quotes = new ArrayList<Quote>();
 		BLFacade facade = MainGUI.getBusinessLogic();
 		backbutton.setBackground(new Color(255, 255, 255));
 		backbutton.setBounds(120, 353, 140, 51);
@@ -156,7 +156,7 @@ public class BetGUI extends JFrame {
 
 						try {
 
-							Vector<domain.Event> events = facade.getEvents(jCalendar1.getDate());
+							ArrayList<domain.Event> events = facade.getEvents(jCalendar1.getDate());
 							if (events.isEmpty())
 								jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("NoEvents") + ": "
 										+ dateformat1.format(calendarAct.getTime()));
@@ -199,7 +199,7 @@ public class BetGUI extends JFrame {
 								} else {
 									facade.addBet(moneybet, us1, quotes);
 									System.out.println(MainGUI.getBusinessLogic().getJarraitzaileak(us1).size());
-									Vector<User> syso = MainGUI.getBusinessLogic().getJarraitzaileak(us1);
+									ArrayList<User> syso = MainGUI.getBusinessLogic().getJarraitzaileak(us1);
 									System.out.println( syso.size());
 									for (User userra : MainGUI.getBusinessLogic().getJarraitzaileak(us1)) {
 										System.out.println(userra.getIzena());

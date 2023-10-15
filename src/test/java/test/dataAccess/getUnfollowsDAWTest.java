@@ -1,6 +1,5 @@
 package test.dataAccess;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -9,11 +8,10 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import configuration.ConfigXML;
 import dataAccess.DataAccess;
 import domain.User;
-import domain.UserAbstract;
-public class getUnfollowsDABTest {
+
+public class getUnfollowsDAWTest {
 	private ArrayList<User> unfollows ;
 	private DataAccess da;
 	private User Mikel2;
@@ -71,5 +69,4 @@ public class getUnfollowsDABTest {
 			assertTrue(xabibakarrik.get(a).getUsername().equals(listaemaitza.get(a).getUsername()));
 		}
 	}
-	
 }

@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -54,7 +54,7 @@ public class AddResultGUI extends JFrame {
 	private JLabel jLabelMsg = new JLabel();
 	private JLabel jLabelError = new JLabel();
 
-	private Vector<Date> datesWithEventsCurrentMonth = new Vector<Date>();
+	private ArrayList<Date> datesWithEventsCurrentMonth = new ArrayList<Date>();
 	private final JButton jbtnAdd = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Add")); //$NON-NLS-1$ //$NON-NLS-2$
 	private final JButton jbtnBack = new JButton(ResourceBundle.getBundle("Etiquetas").getString("WalletBack")); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -203,7 +203,7 @@ public class AddResultGUI extends JFrame {
 					try {
 						BLFacade facade = MainGUI.getBusinessLogic();
 
-						Vector<domain.Event> events = facade.getEvents(jCalendar1.getDate());
+						ArrayList<domain.Event> events = facade.getEvents(jCalendar1.getDate());
 						if (events.isEmpty())
 							jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("NoEvents") + ": "
 									+ dateformat1.format(calendarAct.getTime()));
@@ -221,7 +221,7 @@ public class AddResultGUI extends JFrame {
 		});
 	}
 
-	public static void paintDaysWithEvents(JCalendar jCalendar, Vector<Date> datesWithEventsCurrentMonth) {
+	public static void paintDaysWithEvents(JCalendar jCalendar, ArrayList<Date> datesWithEventsCurrentMonth) {
 		// For each day with events in current month, the background color for that day
 		// is changed to cyan.
 

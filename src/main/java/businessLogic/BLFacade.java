@@ -1,6 +1,6 @@
 package businessLogic;
 
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +43,7 @@ public interface BLFacade  {
 	 * @param date in which events are retrieved
 	 * @return collection of events
 	 */
-	@WebMethod public Vector<Event> getEvents(Date date);
+	@WebMethod public ArrayList<Event> getEvents(Date date);
 	
 	/**
 	 * This method retrieves from the database the dates a month for which there are events
@@ -51,7 +51,7 @@ public interface BLFacade  {
 	 * @param date of the month for which days with events want to be retrieved 
 	 * @return collection of dates
 	 */
-	@WebMethod public Vector<Date> getEventsMonth(Date date);
+	@WebMethod public ArrayList<Date> getEventsMonth(Date date);
 	
 	/**
 	 * This method calls the data access to initialize the database with some events and questions.
@@ -68,19 +68,19 @@ public interface BLFacade  {
 	@WebMethod public boolean putMoney(float money, User us, String desc);
 	@WebMethod public boolean takeMoney(float money, User us, String desc);
 	@WebMethod public boolean makeWinner(Question q, Quote qq);
-	@WebMethod public boolean addBet(float money, User us, Vector<Quote> q);
+	@WebMethod public boolean addBet(float money, User us, ArrayList<Quote> q);
 	@WebMethod public boolean deleteEvent(Event ev);
 	@WebMethod public UserAbstract getUser(UserAbstract user);
 	@WebMethod public void setUser(UserAbstract user);
 	@WebMethod public boolean addMovement(User us, Movement move);
 	@WebMethod public boolean copyEvent(Event ev, Date date);
-	@WebMethod public Vector<UserAbstract> getUsers(boolean isAdmin);
+	@WebMethod public ArrayList<UserAbstract> getUsers(boolean isAdmin);
 	@WebMethod public void changemax(User us, float kant);
 	@WebMethod public void addFollow(User jarraitu, User jarraitzaile);
 	@WebMethod public void removeFollow(User jarraitu, User jarraitzaile);
-	@WebMethod public Vector<User> getUnfollows(User us);
-	@WebMethod public Vector<User> getJarraitzaileak(User us);
-	@WebMethod public Vector<User> getJarraituak(User us);
+	@WebMethod public ArrayList<User> getUnfollows(User us);
+	@WebMethod public ArrayList<User> getJarraitzaileak(User us);
+	@WebMethod public ArrayList<User> getJarraituak(User us);
 	@WebMethod public void addResult(Question q, Quote qq);
 	@WebMethod public List<User> getRanking();
 }

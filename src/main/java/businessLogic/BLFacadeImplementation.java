@@ -2,7 +2,7 @@ package businessLogic;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -13,13 +13,13 @@ import domain.Question;
 import domain.Quote;
 import domain.User;
 import domain.UserAbstract;
-import domain.UserAdmin;
+
 import domain.Bet;
 import domain.Event;
 import domain.Movement;
 import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
-import gui.MainGUI;
+
 
 /**
  * It implements the business logic as a web service.
@@ -27,7 +27,7 @@ import gui.MainGUI;
 @WebService(endpointInterface = "businessLogic.BLFacade")
 public class BLFacadeImplementation  implements BLFacade {
 	DataAccess dbManager;
-	//UserAbstract user;
+	public String initialize = "initialize";
 	@WebMethod
 	public UserAbstract getUser(UserAbstract user) {
 		UserAbstract u= null;
@@ -51,8 +51,8 @@ public class BLFacadeImplementation  implements BLFacade {
 		System.out.println("Creating BLFacadeImplementation instance");
 		ConfigXML c=ConfigXML.getInstance();
 		
-		if (c.getDataBaseOpenMode().equals("initialize")) {
-		    dbManager=new DataAccess(c.getDataBaseOpenMode().equals("initialize"));
+		if (c.getDataBaseOpenMode().equals(initialize)) {
+		    dbManager=new DataAccess(c.getDataBaseOpenMode().equals(initialize));
 		    dbManager.initializeDB();
 		    } else
 		     dbManager=new DataAccess();
@@ -66,7 +66,7 @@ public class BLFacadeImplementation  implements BLFacade {
 		System.out.println("Creating BLFacadeImplementation instance with DataAccess parameter");
 		ConfigXML c=ConfigXML.getInstance();
 		
-		if (c.getDataBaseOpenMode().equals("initialize")) {
+		if (c.getDataBaseOpenMode().equals(initialize)) {
 			da.open(true);
 			da.initializeDB();
 			da.close();
@@ -103,7 +103,7 @@ public class BLFacadeImplementation  implements BLFacade {
 		dbManager.close();
 		
 		return qry;
-   };
+   }
 	
 	/**
 	 * This method invokes the data access to retrieve the events of a given date 
@@ -112,9 +112,9 @@ public class BLFacadeImplementation  implements BLFacade {
 	 * @return collection of events
 	 */
     @WebMethod	
-	public Vector<Event> getEvents(Date date)  {
+	public ArrayList<Event> getEvents(Date date)  {
 		dbManager.open(false);
-		Vector<Event>  events=dbManager.getEvents(date);
+		ArrayList<Event>  events=dbManager.getEvents(date);
 		dbManager.close();
 		return events;
 	}
@@ -126,9 +126,9 @@ public class BLFacadeImplementation  implements BLFacade {
 	 * @param date of the month for which days with events want to be retrieved 
 	 * @return collection of dates
 	 */
-	@WebMethod public Vector<Date> getEventsMonth(Date date) {
+	@WebMethod public ArrayList<Date> getEventsMonth(Date date) {
 		dbManager.open(false);
-		Vector<Date>  dates=dbManager.getEventsMonth(date);
+		ArrayList<Date>  dates=dbManager.getEventsMonth(date);
 		dbManager.close();
 		return dates;
 	}
@@ -143,7 +143,7 @@ public class BLFacadeImplementation  implements BLFacade {
 
 	/**
 	 * This method invokes the data access to initialize the database with some events and questions.
-	 * It is invoked only when the option "initialize" is declared in the tag dataBaseOpenMode of resources/config.xml file
+	 * It is invoked only when the option initialize is declared in the tag dataBaseOpenMode of resources/config.xml file
 	 */	
     @WebMethod	
 	 public void initializeBD(){
@@ -220,7 +220,7 @@ public class BLFacadeImplementation  implements BLFacade {
 	}
 
 	@WebMethod
-	public boolean addBet(float money, User us, Vector<Quote> q) {
+	public boolean addBet(float money, User us, ArrayList<Quote> q) {
 		dbManager.open(false);
 		boolean b=dbManager.addBet(money, us, q);
 		dbManager.close();
@@ -248,9 +248,9 @@ public class BLFacadeImplementation  implements BLFacade {
 		return b;
 	}
 
-	@WebMethod public Vector<UserAbstract> getUsers(boolean isAdmin){
+	@WebMethod public ArrayList<UserAbstract> getUsers(boolean isAdmin){
 		dbManager.open(false);
-		Vector<UserAbstract> users=dbManager.getUsers(isAdmin);
+		ArrayList<UserAbstract> users=dbManager.getUsers(isAdmin);
 		dbManager.close();
 		return users;
 	}
@@ -270,21 +270,21 @@ public class BLFacadeImplementation  implements BLFacade {
 		dbManager.removeFollow(jarraitu, jarraitzaile);
 		dbManager.close();
 	}
-	@WebMethod public Vector<User> getUnfollows(User us){
+	@WebMethod public ArrayList<User> getUnfollows(User us){
 		dbManager.open(false);
-		Vector<User> nofollowing = dbManager.getUnfollows(us);
+		ArrayList<User> nofollowing = dbManager.getUnfollows(us);
 		dbManager.close();
 		return nofollowing;
 	}
-	@WebMethod public Vector<User> getJarraitzaileak(User us){
+	@WebMethod public ArrayList<User> getJarraitzaileak(User us){
 		dbManager.open(false);
-		Vector<User> jarraitzailes= dbManager.getJarraitzaileak(us);
+		ArrayList<User> jarraitzailes= dbManager.getJarraitzaileak(us);
 		dbManager.close();
 		return jarraitzailes;
 	}
-	@WebMethod public Vector<User> getJarraituak(User us){
+	@WebMethod public ArrayList<User> getJarraituak(User us){
 		dbManager.open(false);
-		Vector<User> jarraitus = dbManager.getJarraituak(us);
+		ArrayList<User> jarraitus = dbManager.getJarraituak(us);
 		dbManager.close();
 		return jarraitus;
 	}

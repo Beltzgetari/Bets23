@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -51,7 +51,7 @@ public class DeleteEventGUI extends JFrame {
 	private JLabel jLabelMsg = new JLabel();
 	private JLabel jLabelQueries = new JLabel();
 	
-	private Vector<Date> datesWithEventsCurrentMonth = new Vector<Date>();
+	private ArrayList<Date> datesWithEventsCurrentMonth = new ArrayList<Date>();
 	private final JButton btnDeleteEvent = new JButton(ResourceBundle.getBundle("Etiquetas").getString("DeleteEvent")); //$NON-NLS-1$ //$NON-NLS-2$
 	private final JButton btnBakc = new JButton(ResourceBundle.getBundle("Etiquetas").getString("WalletBack")); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -172,7 +172,7 @@ public class DeleteEventGUI extends JFrame {
 					try {
 						BLFacade facade=MainGUI.getBusinessLogic();
 						btnDeleteEvent.setEnabled(false);
-						Vector<domain.Event> events=facade.getEvents(jCalendar1.getDate());
+						ArrayList<domain.Event> events=facade.getEvents(jCalendar1.getDate());
 						if (events.isEmpty() ) jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("NoEvents")+ ": "+dateformat1.format(calendarAct.getTime()));
 						else jLabelEvents.setText(ResourceBundle.getBundle("Etiquetas").getString("Events")+ ": "+dateformat1.format(calendarAct.getTime()));
 						eventsmodel.removeAllElements();
@@ -189,7 +189,7 @@ public class DeleteEventGUI extends JFrame {
 	}
 
 	
-public static void paintDaysWithEvents(JCalendar jCalendar,Vector<Date> datesWithEventsCurrentMonth) {
+public static void paintDaysWithEvents(JCalendar jCalendar,ArrayList<Date> datesWithEventsCurrentMonth) {
 		// For each day with events in current month, the background color for that day is changed to cyan.
 
 		

@@ -3,7 +3,7 @@ package domain;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -26,13 +26,13 @@ public class Event implements Serializable {
 	private String description; 
 	private Date eventDate;
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	private Vector<Question> questions=new Vector<Question>();
+	private ArrayList<Question> questions=new ArrayList<Question>();
 
-	public Vector<Question> getQuestions() {
+	public ArrayList<Question> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(Vector<Question> questions) {
+	public void setQuestions(ArrayList<Question> questions) {
 		this.questions = questions;
 	}
 
