@@ -1,0 +1,53 @@
+------------------------------------------------------------------------------------------------------------------------
+
+[2023-10-19 18:46:48 #1 store] 
+Database 'D:\Eclipse\Bets23\src\main\resources\bets.temp' has been recovered (tr. 1139-1149)
+
+[2023-10-19 18:46:48 #2 store] 
+Database 'D:\Eclipse\Bets23\src\main\resources\bets.temp' is opened by 13444@DESKTOP-CBLTVSI
+
+[2023-10-19 18:46:48 #3 type] 
+Type domain.UserAbstract is not enhanced.
+
+[2023-10-19 18:46:48 #4 type] 
+Type domain.UserAdmin is not enhanced.
+
+[2023-10-19 18:46:48 #5 type] 
+Type domain.User is not enhanced.
+
+[2023-10-19 18:46:48 #6 type.registry] 
+New type java.util.ArrayList<domain.User>
+
+[2023-10-19 18:46:48 #7 type.registry] 
+New type java.util.ArrayList<domain.Bet>
+
+[2023-10-19 18:46:48 #8 type.registry] 
+New type java.util.ArrayList<domain.Movement>
+
+[2023-10-19 18:46:48 #9 type] 
+Type domain.Statistics is not enhanced.
+
+[2023-10-19 18:46:48 #10 type] 
+Type domain.Bet is not enhanced.
+
+[2023-10-19 18:46:48 #11 type.registry] 
+New type java.util.ArrayList<domain.Quote>
+
+[2023-10-19 18:46:48 #12 type] 
+Type domain.Movement is not enhanced.
+
+[2023-10-19 18:46:48 #13 type] 
+Type domain.Quote is not enhanced.
+
+[2023-10-19 18:46:48 #14 type] 
+Type domain.Question is not enhanced.
+
+[2023-10-19 18:46:48 #15 type] 
+Type domain.Event is not enhanced.
+
+[2023-10-19 18:46:48 #16 type.registry] 
+New type java.util.ArrayList<domain.Question>
+
+[2023-10-19 18:46:48 #17 type.registry] 
+New type java.util.ArrayList<java.lang.Object>
+
