@@ -56,6 +56,10 @@ public class DataAccess  {
 		db.getTransaction().begin();
 		try {
 		
+			String Lokala = "Lokala";
+            String Bisitaria = "Bisitaria";
+            String Local ="Local";
+            
 		   UserAdmin admin = new UserAdmin("admin", "admin");
 		   User a= new User("a", "a", "a", 18);
 		  User b= new User("b", "b", "b", 18);
@@ -123,15 +127,15 @@ public class DataAccess  {
 				q5=ev17.addQuestion("Â¿QuiÃ©n ganarÃ¡ el partido?",1);
 				q6=ev17.addQuestion("Â¿HabrÃ¡ goles en la primera parte?",2);
 				
-				qq11= q1.addQuote("Local", 1.5);
+				qq11= q1.addQuote(Local, 1.5);
 				qq12= q1.addQuote("Visitante", 2);
-				qq21=q2.addQuote("Local", 2.5);
+				qq21=q2.addQuote(Local, 2.5);
 				qq22= q2.addQuote("Visitante", 1);
-				qq31= q3.addQuote("Local", 3);
+				qq31= q3.addQuote(Local, 3);
 				qq32=q3.addQuote("Visitante", 1);
 				qq41= q4.addQuote("1", 1.5);
 				qq42=q4.addQuote("2", 2);
-				qq51=q5.addQuote("Local", 1.5);
+				qq51=q5.addQuote(Local, 1.5);
 				qq52=q5.addQuote("Visitante", 2);
 				qq61=q6.addQuote("Si", 1.5);
 				qq62=q6.addQuote("No", 2);
@@ -145,15 +149,15 @@ public class DataAccess  {
 				q5=ev17.addQuestion("Who will win the match?",1);
 				q6=ev17.addQuestion("Will there be goals in the first half?",2);
 				
-				qq11= q1.addQuote("Local", 1.5);
+				qq11= q1.addQuote(Local, 1.5);
 				qq12= q1.addQuote("Visitor", 2);
-				qq21=q2.addQuote("Local", 2.5);
+				qq21=q2.addQuote(Local, 2.5);
 				qq22= q2.addQuote("Visitor", 1);
-				qq31= q3.addQuote("Local", 3);
+				qq31= q3.addQuote(Local, 3);
 				qq32=q3.addQuote("Visitor", 1);
 				qq41= q4.addQuote("1", 1.5);
 				qq42=q4.addQuote("2", 2);
-				qq51=q5.addQuote("Local", 1.5);
+				qq51=q5.addQuote(Local, 1.5);
 				qq52=q5.addQuote("Visitor", 2);
 				qq61=q6.addQuote("Yes", 1.5);
 				qq62=q6.addQuote("No", 2);
@@ -166,16 +170,16 @@ public class DataAccess  {
 				q5=ev17.addQuestion("Zeinek irabaziko du partidua?",1);
 				q6=ev17.addQuestion("Golak sartuko dira lehenengo zatian?",2);
 				
-				qq11=q1.addQuote("Lokala", 1.5);
-				qq12=q1.addQuote("Bisitaria", 2);
+				qq11=q1.addQuote(Lokala, 1.5);
+				qq12=q1.addQuote(Bisitaria, 2);
 				qq21=q2.addQuote("Lokalak", 2.5);
 				qq22=q2.addQuote("Bisitariak", 1);
-				qq31=q3.addQuote("Lokala", 3);
-				qq32=q3.addQuote("Bisitaria", 1);
+				qq31=q3.addQuote(Lokala, 3);
+				qq32=q3.addQuote(Bisitaria, 1);
 				qq41=q4.addQuote("1", 1.5);
 				qq42=q4.addQuote("2", 2);
-				qq51=q5.addQuote("Lokala", 1.5);
-				qq52=q5.addQuote("Bisitaria", 2);
+				qq51=q5.addQuote(Lokala, 1.5);
+				qq52=q5.addQuote(Bisitaria, 2);
 				qq61=q6.addQuote("Bai", 1.5);
 				qq62=q6.addQuote("Ez", 2);
 				
@@ -438,33 +442,36 @@ public boolean existQuestion(Event event, String question) {
 		}
 	}
 	
+	protected void Galtzaileak(Question galdera, Quote q1) {
+		for (Quote qq : galdera.getQuotes()) {
+			Quote qq2 = db.find(Quote.class, qq);
+			if (!qq2.getQuoteNumber().equals(q1.getQuoteNumber()))
+				qq2.makeLoser();
+		}
+	}
+	
 	public boolean makeWinner(Question quest, Quote q) {
 		System.out.println("hola");
-		Quote q1= db.find(Quote.class, q);
+		Quote q1 = db.find(Quote.class, q);
 		Question quest2 = db.find(Question.class, quest);
-		if (quest2 == null || q1==null) {
-			if(quest2 == null) {
-			System.out.println("no llega quest ");
+		if (quest2 == null || q1 == null) {
+			if (quest2 == null) {
+				System.out.println("no llega quest ");
 			}
-			if(q1 ==null) {
+			if (q1 == null) {
 				System.out.println("no llega quote");
 			}
 			return false;
-		}else {
+		} else {
 			System.out.println("llega aqui");
-			if (q1.isWinner()==1) {
+			if (q1.isWinner() == 1) {
 				return false;
-			}else {
+			} else {
 				db.getTransaction().begin();
 				q1.makeWinner();
-				//System.out.println("makeWinner true");
-				
-				for(Quote qq: quest2.getQuotes()) {
-					Quote qq2 = db.find(Quote.class, qq);
-					if(!qq2.getQuoteNumber().equals(q1.getQuoteNumber()))
-						qq2.makeLoser();
-				}
-				//System.out.println("is Winner: " + q1.isWinner());
+				// System.out.println("makeWinner true");
+				Galtzaileak(quest2, q1);
+				// System.out.println("is Winner: " + q1.isWinner());
 				db.getTransaction().commit();
 				return true;
 			}

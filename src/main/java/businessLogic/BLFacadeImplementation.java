@@ -289,7 +289,33 @@ public class BLFacadeImplementation  implements BLFacade {
 		return jarraitus;
 	}
 	
-	@WebMethod public void addResult(Question q, Quote qq) {
+	
+	
+	protected boolean addMoneyFor(Bet b, boolean irabazle) {
+		User u = (User) this.getUserByName(b.getUser().getIzena());
+		for (Quote q1 : b.getQuotes()) {
+			if (q1.isWinner() != 1) {
+				irabazle = false;
+			}
+		}
+
+		float moneywin = b.getKop();
+		if (irabazle) {
+			for (Quote q1 : b.getQuotes()) {
+				moneywin *= q1.getMulti();
+			}
+			this.putMoney(moneywin, u, "ApustuaIrabazi");
+		}
+
+		dbManager.open(false);
+		dbManager.updateStatistics(u, moneywin, irabazle);
+		dbManager.close();
+
+		return irabazle;
+	}
+
+	@WebMethod
+	public void addResult(Question q, Quote qq) {
 		boolean irabazle = true;
 		this.makeWinner(q, qq);
 		dbManager.open(false);
@@ -299,34 +325,11 @@ public class BLFacadeImplementation  implements BLFacade {
 		for (Bet b : dbq.getBets()) {
 			irabazle = this.addMoneyFor(b, irabazle);
 		}
-		
-	
-		for (Quote qq1: quest.getQuotes()) {
+		for (Quote qq1 : quest.getQuotes()) {
 			this.AddStatistics(qq1, qq);
 		}
 	}
-	protected boolean addMoneyFor(Bet b, boolean irabazle) {
-		User u = (User) this.getUserByName(b.getUser().getIzena());
-		for (Quote q1 : b.getQuotes()) {
-			if (q1.isWinner() != 1) {
-				irabazle = false;
-			}
-		}
-		
-		float moneywin = b.getKop();
-		if (irabazle) {
-			for (Quote q1 : b.getQuotes()) {
-				moneywin *= q1.getMulti();
-			}
-			this.putMoney(moneywin, u, "ApustuaIrabazi");
-		}
-		
-		dbManager.open(false);
-		dbManager.updateStatistics(u, moneywin, irabazle);
-		dbManager.close();
-		
-		return irabazle;
-	}
+
 	protected void AddStatistics(Quote qq1, Quote qwin) {
 		dbManager.open(false);
 		Quote qq2 = dbManager.getQuote(qq1);
