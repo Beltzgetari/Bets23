@@ -44,10 +44,10 @@ public class removeFollowDABTest {
 		xabiezdatubasean = new User("Xabi", "OnePieceUnaMierda", "Xabi", 20);
 		xabikezjarraitumikel = new User("Xabi-Mikel", "OnePieceUnaMierda", "Xabi-Mikel", 40);
 		mikelekezjarraitzailexabi = new User("Mikel-Xabi", "OnePieceUnaMierda", "Mikel-Xabi", 40);
-		da.register(xabikezjarraitumikel.getUsername(), xabikezjarraitumikel.getPassword(),xabikezjarraitumikel.getIzena(), xabikezjarraitumikel.getAge());
-		da.register(mikelekezjarraitzailexabi.getUsername(),mikelekezjarraitzailexabi.getPassword(), mikelekezjarraitzailexabi.getIzena(), mikelekezjarraitzailexabi.getAge());
-		da.register(Xabi.getUsername(), Xabi.getPassword(), Xabi.getIzena(), Xabi.getAge());
-		da.register(Mikel.getUsername(), Mikel.getPassword(), Mikel.getIzena(), Mikel.getAge());
+		da.register(xabikezjarraitumikel);
+		da.register(mikelekezjarraitzailexabi);
+		da.register(Xabi);
+		da.register(Mikel);
 	}
 	
 	@Test

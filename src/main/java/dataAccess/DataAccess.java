@@ -1,6 +1,7 @@
 package dataAccess;
 
 //hello
+import dataAccess.TakeMoneyClass;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -366,20 +367,20 @@ public boolean existQuestion(Event event, String question) {
 			 }
 		 }
 	}
-	public boolean register( String username, String password, String izena, int age) {
-		UserAbstract us= db.find(UserAbstract.class, username);
-		if (us== null) {
-			db.getTransaction().begin();
-			System.out.println(username);
-			db.persist((UserAbstract)new User(username, password, izena, age));
-			//db.persist((UserAbstract)new UserAdmin(username, password));
-			db.getTransaction().commit();
-			System.out.println("Erregistratu da");
-			return true;
-		}else {
-			return false;
-		}
-	}
+	 public boolean register(User us) {
+	        UserAbstract us1= db.find(UserAbstract.class, us.getUsername());
+	        if (us1== null) {
+	            db.getTransaction().begin();
+
+	            db.persist((UserAbstract)us);
+	            //db.persist((UserAbstract)new UserAdmin(username, password));
+	            db.getTransaction().commit();
+
+	            return true;
+	        }else {
+	            return false;
+	        }
+	    }
 
 	public UserAbstract getUserByName(String username) {
         return db.find(UserAbstract.class, username);
@@ -406,41 +407,40 @@ public boolean existQuestion(Event event, String question) {
             return false;
         }
     }
-	public boolean putMoney(float money, User us, String desc) {
-		User us1 = db.find(User.class, us);
-		if (us1 == null) {
-			return false;
-		}else {
-			db.getTransaction().begin();
-			us1.setWallet(us1.getWallet()+ money);
-			db.getTransaction().commit();
-			Movement move= new Movement(desc, money);
-			this.addMovement(us1, move);
-			return true;
-		}
-	}
+	 public boolean putMoney(TakeMoneyClass t) {
+	        User us1 = db.find(User.class, t.getUs());
+	        if (us1 == null) {
+	            return false;
+	        }else {
+	            db.getTransaction().begin();
+	            us1.setWallet(us1.getWallet()+ t.getMoney());
+	            db.getTransaction().commit();
+	            Movement move= new Movement(t.getDesc(), t.getMoney());
+	            this.addMovement(us1, move);
+	            return true;
+	        }
+	    }
 	
-	public boolean takeMoney(float money, User us, String desc) {
-		User us1= db.find(User.class, us);
-		
-		if (us1== null) {
-			return false;
-		}else {
-		
-			float wallet = us1.getWallet();
-			if (wallet < money) {
-				System.out.println("Eztago wallet-ean") ;
-				return false;
-				}else {
-					db.getTransaction().begin();
-					us1.setWallet(wallet-money);
-					Movement move= new Movement(desc, money);
-					db.getTransaction().commit();
-					this.addMovement(us1, move);
-				}
-			return true;
-		}
-	}
+    public boolean takeMoney(TakeMoneyClass t) {
+        User us1= db.find(User.class, t.getUs());
+        if (us1== null) {
+            return false;
+        }else {
+
+            float wallet = us1.getWallet();
+            if (wallet < t.getMoney()) {
+                System.out.println("Eztago wallet-ean") ;
+                return false;
+            }else {
+                db.getTransaction().begin();
+                us1.setWallet(wallet-t.getMoney());
+                Movement move= new Movement(t.getDesc(), t.getMoney());
+                db.getTransaction().commit();
+                this.addMovement(us1, move);
+            }
+            return true;
+        }
+    }
 	
 	protected void Galtzaileak(Question galdera, Quote q1) {
 		for (Quote qq : galdera.getQuotes()) {
@@ -455,12 +455,6 @@ public boolean existQuestion(Event event, String question) {
 		Quote q1 = db.find(Quote.class, q);
 		Question quest2 = db.find(Question.class, quest);
 		if (quest2 == null || q1 == null) {
-			if (quest2 == null) {
-				System.out.println("no llega quest ");
-			}
-			if (q1 == null) {
-				System.out.println("no llega quote");
-			}
 			return false;
 		} else {
 			System.out.println("llega aqui");
@@ -495,7 +489,8 @@ public boolean existQuestion(Event event, String question) {
 			us1.getBets().add(bet2);
 			us1.getStatistics().setAmountOfBets(us.getStatistics().getAmountOfBets()+1);
 			db.getTransaction().commit();
-			this.takeMoney(money, us, "DiruaApustuarentzako" );
+			TakeMoneyClass t = new TakeMoneyClass(money, us, "DiruaApustuarentzako" );
+			this.takeMoney(t);
 			return true;
 		} else {
 			return false;
@@ -530,30 +525,32 @@ public boolean existQuestion(Event event, String question) {
 	}
 	
 	public boolean copyEvent(Event ev, Date date) {
-		Event evdb = db.find(Event.class, ev);
-		if (evdb == null) {
-			return false;
-		} else {
-			this.createEvent(evdb.getDescription(), date);
-			TypedQuery<Event> query1 = db.createQuery("SELECT ev FROM Event ev WHERE ev.eventDate=?1 AND ev.description=?2", Event.class);
-			query1.setParameter(1, date);
-			query1.setParameter(2, evdb.getDescription());
-			for (Question q: evdb.getQuestions()) {
-				try {
-				Question q2 = this.createQuestion(query1.getSingleResult(), q.getQuestion(), q.getBetMinimum());
-				Question qdb = db.find(Question.class, q2);
-				for (Quote qq : q.getQuotes()) {
-					this.createQuote(qdb, qq.getQuote(), qq.getMulti());
-				}
-				
-				} catch (QuestionAlreadyExist e) {
-					e.printStackTrace();
-				}
-			}
-			return true;
-		}
-	}
-	
+        Event evdb = db.find(Event.class, ev);
+        if (evdb == null) {
+            return false;
+        } else {
+            this.createEvent(evdb.getDescription(), date);
+            TypedQuery<Event> query1 = db.createQuery("SELECT ev FROM Event ev WHERE ev.eventDate=?1 AND ev.description=?2", Event.class);
+            query1.setParameter(1, date);
+            query1.setParameter(2, evdb.getDescription());
+
+            return true;
+        }
+    }
+    protected void copyEvent2(Event evdb, TypedQuery<Event> query1) {
+        for (Question q: evdb.getQuestions()) {
+            try {
+            Question q2 = this.createQuestion(query1.getSingleResult(), q.getQuestion(), q.getBetMinimum());
+            Question qdb = db.find(Question.class, q2);
+            for (Quote qq : q.getQuotes()) {
+                this.createQuote(qdb, qq.getQuote(), qq.getMulti());
+            }
+
+            } catch (QuestionAlreadyExist e) {
+                e.printStackTrace();
+            }
+        }
+    }
 	
 	public ArrayList<UserAbstract> getUsers(boolean isAdmin){
 		ArrayList<UserAbstract> users = new ArrayList<UserAbstract>();
@@ -588,40 +585,48 @@ public boolean existQuestion(Event event, String question) {
 	}
 	
 	public void removeFollow(User jarraitua, User jarraitzaile) {
-		User us1 = db.find(User.class, jarraitua);
-		User us2 = db.find(User.class, jarraitzaile);
-		db.getTransaction().begin();
-		Iterator<User> j1 = us1.getJarraitzaileak().iterator();
-		while (j1.hasNext()) {
-			User u = j1.next();
-			if (u.equals(us2)) {
-				j1.remove();
-			}
-		}
-		Iterator<User> j2= us2.getJarraituak().iterator();
-		while (j2.hasNext()) {
-			User u2 = j2.next();
-			if (u2.equals(us1)) {
-				j2.remove();
-			}
-		}
-		db.getTransaction().commit();
-	}
-	
+        User us1 = db.find(User.class, jarraitua);
+        User us2 = db.find(User.class, jarraitzaile);
+        db.getTransaction().begin();
+        this.removeFollow2(us1, us2);
+        this.removeFollow3(us1, us2);
+        db.getTransaction().commit();
+    }
+
+    protected void removeFollow2(User us1, User us2){
+        Iterator<User> j1 = us1.getJarraitzaileak().iterator();
+        while (j1.hasNext()) {
+            User u = j1.next();
+            if (u.equals(us2)) {
+                j1.remove();
+            }
+        }
+    }
+    protected void removeFollow3(User us1, User us2) {
+        Iterator<User> j2= us2.getJarraituak().iterator();
+        while (j2.hasNext()) {
+            User u2 = j2.next();
+            if (u2.equals(us1)) {
+                j2.remove();
+            }
+        }
+    }
 	public ArrayList<User> getUnfollows(User us){
 		User us1 = db.find(User.class, us);
 		ArrayList<User> nofollowing = new ArrayList<User>();
 		TypedQuery<User> guztiak = db.createQuery("SELECT DISTINCT us FROM User us", User.class);
 		if (!guztiak.getResultList().isEmpty()) {
-			for (User ez : guztiak.getResultList()) {
-				if (!us1.getJarraituak().contains(ez) && !us1.equals(ez)) {
-					nofollowing.add(ez);
-				}
-			}
+			
 		}
 			return nofollowing;
 	}
-	
+	protected void getUnfollows2(ArrayList<User> nofollowing, TypedQuery<User> guztiak, User us1) {
+		for (User ez : guztiak.getResultList()) {
+			if (!us1.getJarraituak().contains(ez) && !us1.equals(ez)) {
+				nofollowing.add(ez);
+			}
+		}
+	}
 	public ArrayList<User> getJarraitzaileak(User us) {
 		User us2 = db.find(User.class, us);
 		System.out.println(us2.getJarraitzaileak().size());

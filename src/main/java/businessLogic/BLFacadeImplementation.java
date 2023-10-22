@@ -9,6 +9,7 @@ import javax.jws.WebService;
 
 import configuration.ConfigXML;
 import dataAccess.DataAccess;
+import dataAccess.TakeMoneyClass;
 import domain.Question;
 import domain.Quote;
 import domain.User;
@@ -161,7 +162,8 @@ public class BLFacadeImplementation  implements BLFacade {
     @WebMethod
     public boolean register( String username, String password, String izena, int age) {
     	dbManager.open(false);
-    	boolean b=dbManager.register(username, password, izena, age);
+    	User us = new User(username, password, izena, age);
+    	boolean b=dbManager.register(us);
     	dbManager.close();
     	return b;
     }
@@ -200,14 +202,16 @@ public class BLFacadeImplementation  implements BLFacade {
 	@WebMethod
 	public boolean putMoney(float money, User us, String desc) {
 		dbManager.open(false);
-		boolean b = dbManager.putMoney(money, us, desc);
+		TakeMoneyClass t = new TakeMoneyClass(money, us, desc);
+		boolean b = dbManager.putMoney(t);
 		dbManager.close();
 		return b;
 	}
 	@WebMethod
 	public boolean takeMoney(float money, User us, String desc) {
 		dbManager.open(false);
-		boolean b=dbManager.takeMoney(money, us, desc);
+		TakeMoneyClass t = new TakeMoneyClass(money, us, desc);
+		boolean b=dbManager.takeMoney(t);
 		dbManager.close();
 		return b;
 	}

@@ -33,8 +33,8 @@ public class getUnfollowsDAWTest {
 		Xabi = new User("MundukoErregie", "OnePieceUnaMierda", "Xabi", 20);
 		
 		
-		da.register(Xabi.getUsername(), Xabi.getPassword(), Xabi.getIzena(), Xabi.getAge());
-		da.register(Mikel2.getUsername(), Mikel2.getPassword(), Mikel2.getIzena(), Mikel2.getAge());
+		da.register(Xabi);
+		da.register(Mikel2);
 	}
 	
 	@Test
